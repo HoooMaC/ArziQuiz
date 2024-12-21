@@ -1,13 +1,5 @@
 import { createContext, useContext } from "react";
-
-export interface QuestionType {
-  category: string;
-  correct_answer: string;
-  difficulty: string;
-  incorrect_answers: string[];
-  question: string;
-  type: string;
-}
+import { QuestionType } from "./types/type.ts";
 
 export const QuestionContext = createContext<QuestionType[] | undefined>(
   undefined,

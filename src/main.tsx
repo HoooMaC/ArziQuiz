@@ -5,19 +5,26 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Quiz from "./components/Quiz.tsx";
 import QuizResult from "./components/QuizResult.tsx";
+import Home from "./components/Home.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/quiz",
-    element: <Quiz />,
-  },
-  {
-    path: "/quizresult",
-    element: <QuizResult />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/quiz/:id",
+        element: <Quiz />,
+      },
+      {
+        path: "/quizresult",
+        element: <QuizResult />,
+      },
+    ],
   },
 ]);
 

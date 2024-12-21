@@ -6,3 +6,8 @@ export interface QuestionType {
   question: string;
   type: string;
 }
+
+export interface CategoryType {
+  id: number;
+  value: string;
+}
