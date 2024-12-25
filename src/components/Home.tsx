@@ -22,29 +22,33 @@ interface QuizSettings {
 
 const Home = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [settings, setSettings] = useState<QuizSettings>({
     numberOfQuestions: 10,
     quizDifficulty: "easy",
   });
 
   const startQuiz = async () => {
+    setIsLoading(true);
     const url = `https://opentdb.com/api.php?amount=${settings.numberOfQuestions}&difficulty=${settings.quizDifficulty}&type=multiple`;
-    console.log(url);
+    //
     try {
       const data = await fetch(url);
       const res = await data.json();
-      console.log(res.response_code);
+      //
       if (res.response_code == 0) {
         // alse add some quiz id to verify the current user and not continuing past quiz
         // we can use local storage here
 
         setItem("questions", res.results);
+        setIsLoading(false);
         navigate("/quiz/1");
       }
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      //
     } finally {
-      console.log("loading false");
+      //
     }
   };
   const updateNumberOfQuestionValue = (
@@ -79,7 +83,7 @@ const Home = () => {
   return (
     <>
       <h1 className="mb-4 text-4xl font-bold text-blue-600">Arzi Quiz</h1>
-      <div className={"flex w-1/2 flex-col space-y-2"}>
+      <div className={"flex w-full max-w-[500px] flex-col space-y-2"}>
         <QuestionNumberInput
           updateNumberOfQuestion={updateNumberOfQuestionValue}
           value={settings.numberOfQuestions}
@@ -91,7 +95,9 @@ const Home = () => {
         />
 
         {/*Start Button*/}
-        <Button onClick={startQuiz}>Start Quiz</Button>
+        <Button disabled={isLoading} onClick={startQuiz}>
+          {isLoading ? "Preparing the questions" : "Start Quiz"}
+        </Button>
       </div>
     </>
   );

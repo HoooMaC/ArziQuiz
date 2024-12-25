@@ -21,7 +21,6 @@ const Question = ({ nextQuestion, question }: QuestionProps) => {
     let isCorrect = false;
     if (answer === question.correct_answer) {
       isCorrect = true;
-      console.log("CORRECT");
     }
     nextQuestion(isCorrect);
   };
@@ -34,9 +33,10 @@ const Question = ({ nextQuestion, question }: QuestionProps) => {
         >
           {/*Hallo*/}
         </h1>
-        <p className={"font-medium text-blue-400"}>
-          Category: {question.category}
-        </p>
+        <p
+          className={"font-medium text-blue-400"}
+          dangerouslySetInnerHTML={{ __html: "Category: " + question.category }}
+        />
       </div>
 
       <div className="flex w-full flex-col space-y-2">

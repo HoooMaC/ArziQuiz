@@ -9,19 +9,19 @@ interface TimerProps {
 const Timer = ({ forceNext, currentQuestion }: TimerProps) => {
   const [time, setTime] = useState<number>(10);
   const [prevQuestion, setPrevQuestion] = useState<number>(0);
-  // useEffect(() => {
-  //   const countdownTimer = setTimeout(() => {
-  //     //   -----------------------------------------------------------
-  //     if (time > 0) {
-  //       setTime((prevState) => prevState - 1);
-  //     } else {
-  //       //   set show result
-  //       forceNext();
-  //     }
-  //   }, 1000);
-  //
-  //   return () => clearTimeout(countdownTimer);
-  // }, [time, forceNext]);
+  useEffect(() => {
+    const countdownTimer = setTimeout(() => {
+      //   -----------------------------------------------------------
+      if (time > 0) {
+        setTime((prevState) => prevState - 1);
+      } else {
+        //   set show result
+        forceNext();
+      }
+    }, 1000);
+
+    return () => clearTimeout(countdownTimer);
+  }, [time, forceNext]);
 
   useEffect(() => {
     if (prevQuestion !== currentQuestion) {

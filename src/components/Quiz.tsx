@@ -4,7 +4,7 @@ import Question from "./Question.tsx";
 import Timer from "./Timer.tsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getItem, removeItem } from "../lib/localMemory.ts";
-import { Button } from "./ui/button.tsx";
+import QuizResult from "./QuizResult.tsx";
 
 interface quizState {
   quizId: string;
@@ -18,7 +18,7 @@ const Quiz = () => {
   // const [questions, setQuestions] = useState<QuestionType[]>();
   const navigate = useNavigate();
   const questions = getItem("questions");
-  const question = questions[Number(id)];
+  const question = questions[Number(id) - 1];
 
   // i also want to put the data to the local storage
   // after i fetch the api, there will be start button to the first question
@@ -31,13 +31,13 @@ const Quiz = () => {
   // that means i need a check if the user is valid and the quiz has already started. In every single qustions.
   const [status, setStatus] = useState<quizState>({
     quizId: "knvio7u08923u4mnfvkk;as'fa",
-    numberOfQuestions: 10,
+    numberOfQuestions: questions.length,
     correctAnswers: 0,
     quizEnd: false,
   });
 
   const nextQuestion = (isCorrect: boolean) => {
-    if (Number(id) + 1 < status.numberOfQuestions) {
+    if (Number(id) < status.numberOfQuestions) {
       setStatus((prevState) => {
         return {
           ...prevState,
@@ -54,65 +54,64 @@ const Quiz = () => {
           quizEnd: true,
         };
       });
-      removeItem("questions");
-      console.log("Kuis selesai!"); // Anda bisa memanggil fungsi untuk menyelesaikan quiz di sini
-      navigate("/quizresult", {
-        state: {
-          status,
-        },
-      });
     }
   };
 
   return (
-    <div className={"relative flex h-screen w-full flex-col"}>
-      <div
-        className={
-          "absolute flex size-8 flex-col items-center justify-center rounded-full border-4" +
-          " border-primary"
-        }
-      >
-        {id}
-      </div>
-      <div className={"flex flex-grow flex-col items-center justify-center"}>
-        {status.quizEnd ? (
-          <>
-            <p>Quiz Ended</p>
-            <Button asChild={true}>
-              <Link to={"/"}>Back to Home</Link>
-            </Button>{" "}
-          </>
-        ) : (
-          <>
-            {questions && (
-              <>
-                <Question
-                  question={question}
-                  nextQuestion={nextQuestion}
-                  index={Number(id)}
-                />
-                <Timer
-                  forceNext={() => nextQuestion(false)}
-                  currentQuestion={Number(id)}
-                />
-              </>
-            )}
-          </>
-        )}
-      </div>
-      <div className={"mb-4 flex flex-grow-0"}>
-        <div className={"flex-grow"}></div>
+    <>
+      {status.quizEnd ? (
+        <>
+          <QuizResult
+            numberOfQuestions={status.numberOfQuestions}
+            correctAnswers={status.correctAnswers}
+            quizEnd={status.quizEnd}
+            quizId={status.quizId}
+          />
+        </>
+      ) : (
+        <>
+          <div
+            className={
+              "absolute left-0 top-0 ms-4 mt-4 flex size-8 flex-col items-center justify-center rounded-full border-4" +
+              " border-primary"
+            }
+          >
+            {id}
+          </div>
+          <div
+            className={"flex flex-grow flex-col items-center justify-center"}
+          >
+            <div className={"relative flex h-screen w-full flex-col"}>
+              {questions && (
+                <>
+                  <Question
+                    question={question}
+                    nextQuestion={nextQuestion}
+                    index={Number(id)}
+                  />
+                  <Timer
+                    forceNext={() => nextQuestion(false)}
+                    currentQuestion={Number(id)}
+                  />
+                </>
+              )}
+              <div className={"mb-4 flex flex-grow-0"}>
+                <div className={"flex-grow"}></div>
 
-        <div className={"h-full w-1/3"}>
-          <p className={"flex items-center text-emerald-800"}>
-            Correct Answer:
-            <span className={"ms-2 text-xl font-bold"}>
-              {status.correctAnswers}
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
+                <div className={"h-full w-1/3"}>
+                  <p className={"flex items-center text-emerald-800"}>
+                    Correct Answer:
+                    <span className={"ms-2 text-xl font-bold"}>
+                      {status.correctAnswers}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 export default Quiz;
