@@ -79,7 +79,9 @@ const Quiz = () => {
             {id}
           </div>
           <div
-            className={"flex flex-grow flex-col items-center justify-center"}
+            className={
+              "flex w-full max-w-[500px] flex-grow flex-col items-center justify-center"
+            }
           >
             <div className={"relative flex h-screen w-full flex-col"}>
               {questions && (
