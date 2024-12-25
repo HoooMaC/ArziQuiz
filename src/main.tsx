@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Quiz from "./components/Quiz.tsx";
-import QuizResult from "./components/QuizResult.tsx";
 import Home from "./components/Home.tsx";
 
 const router = createBrowserRouter([

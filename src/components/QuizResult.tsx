@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button.tsx";
 import { Home, ScrollText } from "lucide-react";
 import { removeItem } from "../lib/localMemory.ts";

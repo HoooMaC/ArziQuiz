@@ -2,8 +2,8 @@ import { useState } from "react";
 import Question from "./Question.tsx";
 
 import Timer from "./Timer.tsx";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { getItem, removeItem } from "../lib/localMemory.ts";
+import { useNavigate, useParams } from "react-router-dom";
+import { getItem } from "../lib/localMemory.ts";
 import QuizResult from "./QuizResult.tsx";
 
 interface quizState {
